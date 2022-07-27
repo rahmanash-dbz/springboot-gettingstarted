@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,6 +67,12 @@ public class RoomController {
 			);
 		}
 		return Mono.error(new Throwable("InValid Service"));
+	}
+	
+	@DeleteMapping("/service/{serviceId}")
+	public Mono<Integer> deleteRoomsByServiceId(@PathVariable String serviceId){
+		Supplier querySuppler = ()->{return roomRepository.deleteRoomByServiceId(serviceId);};
+		return Mono.fromCompletionStage(execService.getThread(querySuppler));
 	}
 
 }

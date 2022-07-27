@@ -9,12 +9,6 @@ import com.rahmanash.gettingstarted.apiservice.H2.H2;
 @Component
 public class ApiService {
 	
-	@Value("${apiservice.service.authName}")
-	private String API_AUTH_NAME;
-	
-	@Value("${apiservice.service.authToken}")
-	private String API_AUTH_TOKEN;
-	
 	
 	private String[] allowedServices;
 	
@@ -23,14 +17,6 @@ public class ApiService {
 	
 	public ApiService(@Value("${apiservice.service.allowedServices}") final String allowedServicesList) {
 		allowedServices = allowedServicesList.split(",");
-	}
-	
-	public String getAuthName() {
-		return API_AUTH_NAME;
-	}
-	
-	public String getAuthToken() {
-		return API_AUTH_TOKEN;
 	}
 	
 	public Boolean isValidService(String serviceId) {
@@ -44,5 +30,7 @@ public class ApiService {
 		}
 		return isValidService;
 	}
+	
+	
 
 }
