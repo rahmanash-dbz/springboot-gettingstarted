@@ -40,7 +40,7 @@ The Rest Controller is the entry point for handling all REST API Requests. It su
   - Create Room for a Service
   - Delete All Rooms for a Service
 
-All Methods uses ThreadExecutorService to run its query with database. Since transactions with database is blocking, all DB transactions can be pushed to a separate thread pool where it can ran and complete. These Methods makes use of Reactor Mono and Flux Concepts to handle Futures and Responses.
+All Methods uses ThreadExecutorService to run its query with database. Since transactions with database is blocking, all DB transactions can be pushed to a separate thread pool where it can ran and complete. Supplier function is provided to executor service to exexcute these transactions. These Methods makes use of Reactor Mono and Flux Concepts to handle Futures and Responses.
 
 And, there is one derived Query Method and Custom Query Methods in Room Repository for DB Transactions, apart from default query methods provided out of the box by JPA.
 
