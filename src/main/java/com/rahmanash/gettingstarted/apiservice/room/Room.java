@@ -105,7 +105,7 @@ public class Room implements Serializable  {
         return Status.convertToEnum(this.status);
     }
 
-    public void setRight(Status _status) {
+    public void setStatus(Status _status) {
         this.status = _status.getStatus();
     }
     
