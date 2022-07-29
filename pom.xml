@@ -48,12 +48,16 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
+		</dependency>
+		<dependency>
+    		<groupId>org.assertj</groupId>
+    		<artifactId>assertj-core</artifactId>
+    		<version>3.17.2</version>
+    		<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/me.yaman.can/spring-boot-webflux-h2-console -->
 		<!--dependency>
