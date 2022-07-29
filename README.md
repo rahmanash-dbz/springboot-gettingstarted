@@ -27,6 +27,14 @@ This Project is just a demo/showcase for understanding of Spring Boot / Project 
       +threadexecutors
         -ThreadExecutorService.java
         
+  +src/test/java
+      +com.rahmanash.gettingstarted.apiservice
+         -ApiServiceApplicationTests.java
+         
+         +room
+            -RoomControllerTests.java
+            -RoomRespositoryTests.java
+        
         
 This Spring Boot Application is basically an extremely basic version of REST API Service.Here, services can contact this application to create,fetch and delete Rooms.For Simplicity,services has been hardcoded in application properties file and no authentication mechanism is provided
 
