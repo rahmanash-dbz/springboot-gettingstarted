@@ -1,6 +1,7 @@
 This Project is just a demo/showcase for understanding of Spring Boot / Project Reactor  Concepts.
 
-+src/main/java
+
+   +src/main/java
 
     +com.rahmanash.gettingstarted.apiservice
       -ApiService.java
@@ -17,6 +18,11 @@ This Project is just a demo/showcase for understanding of Spring Boot / Project 
         -Room.java
         -RoomController.java
         -RoomRepository.java
+        
+        +roomstats
+            -RoomStats.java
+            -RoomStatsProducerService.java
+            -RoomStatsConsumerService.java
         
       +threadexecutors
         -ThreadExecutorService.java
@@ -43,4 +49,8 @@ The Rest Controller is the entry point for handling all REST API Requests. It su
 All Methods uses ThreadExecutorService to run its query with database. Since transactions with database is blocking, all DB transactions can be pushed to a separate thread pool where it can ran and complete. Supplier function is provided to executor service to exexcute these transactions. These Methods makes use of Reactor Mono and Flux Concepts to handle Futures and Responses.
 
 And, there is one derived Query Method and Custom Query Methods in Room Repository for DB Transactions, apart from default query methods provided out of the box by JPA.
+
+For showcasing of implementation of Reactive Streams, a pub/sub service for updating stats of a room is implemented. This uses Sink(a reactive stream implementation of publisher and subscriber ) to emit and transmit Objects to multiple Subscribers at the same time.
+
+In this project, stats of a room creation/deletion is pushed to a dummy queuing service/ dummy database service using the Sink.
 
