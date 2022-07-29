@@ -1,7 +1,6 @@
 package com.rahmanash.gettingstarted.apiservice.room;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -12,35 +11,27 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.assertj.core.api.Assertions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.web.reactive.context.ReactiveWebApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.reactive.ClientHttpRequest;
 import org.springframework.test.web.reactive.server.FluxExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
-import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.rahmanash.gettingstarted.apiservice.ApiService;
 import com.rahmanash.gettingstarted.apiservice.ThreadExecutors.ThreadExecutorService;
+import com.rahmanash.gettingstarted.apiservice.room.roomstats.RoomStats;
+import com.rahmanash.gettingstarted.apiservice.room.roomstats.RoomStatsProducerService;
 
-import reactor.core.publisher.Flux;
 
 @WebFluxTest(RoomController.class)
 public class RoomControllerTests {
@@ -53,6 +44,9 @@ public class RoomControllerTests {
 	
 	@MockBean
 	private ApiService apiService;
+	
+	@MockBean
+	private RoomStatsProducerService statsProducerService;
 	
 	
 	
@@ -71,6 +65,11 @@ public class RoomControllerTests {
 	
 	@MockBean
 	private ThreadExecutorService execService;
+	
+	@BeforeEach
+    public void setup() {
+       when(this.statsProducerService.sendStat(Mockito.any(RoomStats.class))).thenReturn(true);
+    }
 	
 //	@Captor
 //    private ArgumentCaptor<Supplier> registerMessageLambdaCaptor;

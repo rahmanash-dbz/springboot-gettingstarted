@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rahmanash.gettingstarted.apiservice.ApiService;
 import com.rahmanash.gettingstarted.apiservice.ThreadExecutors.ThreadExecutorService;
+import com.rahmanash.gettingstarted.apiservice.room.roomstats.RoomStats;
+import com.rahmanash.gettingstarted.apiservice.room.roomstats.RoomStatsProducerService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -33,6 +35,9 @@ public class RoomController {
 	
 	@Autowired
 	private ThreadExecutorService execService;
+	
+	@Autowired
+	private RoomStatsProducerService statsProducerService;
 	
 	
 	
@@ -62,7 +67,9 @@ public class RoomController {
 		System.out.println("Room Model --"+room.toCustomString());
 		if(apiService.isValidService(serviceId)) {
 			return Mono.fromCompletionStage(execService.getThread( ()->{
-				return roomRepository.save(room);
+				Room createdRoom =  roomRepository.save(room);
+				statsProducerService.sendStat(new RoomStats(true,false));
+				return createdRoom;
 				})
 			);
 		}
@@ -71,7 +78,13 @@ public class RoomController {
 	
 	@DeleteMapping("/service/{serviceId}")
 	public Mono<Integer> deleteRoomsByServiceId(@PathVariable String serviceId){
-		Supplier querySuppler = ()->{return roomRepository.deleteRoomByServiceId(serviceId);};
+		Supplier querySuppler = ()->{
+			Integer delStatus =  roomRepository.deleteRoomByServiceId(serviceId);
+			if(delStatus == 1) {
+				statsProducerService.sendStat(new RoomStats(false,true));
+			}
+			return delStatus;
+		};
 		return Mono.fromCompletionStage(execService.getThread(querySuppler));
 	}
 
